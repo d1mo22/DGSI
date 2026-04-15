@@ -104,6 +104,28 @@ def initialize_seed_data(db: Session = None):
                 )
                 db.add(inventory)
 
+        # Seed default admin user
+        seed_default_admin(db)
+
+        # Seed default simulation state (singleton)
+        from app.models.simulation import SimulationState
+        from app.core.config import get_settings
+        settings = get_settings()
+        existing_state = db.query(SimulationState).first()
+        if not existing_state:
+            import json as _json
+            state = SimulationState(
+                current_day=1,
+                current_date=settings.SIMULATION_START_DATE,
+                demand_params=_json.dumps({
+                    "P3D-Classic": {"mean": 8, "variance": 3},
+                    "P3D-Pro": {"mean": 5, "variance": 2}
+                }),
+                capacity_per_day=settings.DEFAULT_CAPACITY_PER_DAY,
+                warehouse_capacity=settings.DEFAULT_WAREHOUSE_CAPACITY
+            )
+            db.add(state)
+
         db.commit()
 
     except Exception as e:

@@ -13,7 +13,7 @@ class Inventory(Base):
     quantity = Column(Numeric(10, 2), default=0, nullable=False)
     reserved_quantity = Column(Numeric(10, 2), default=0, nullable=False)  # Reserved for released orders
     unit_type = Column(String(20), default="raw")  # "raw" or "finished"
-    updated_at = Column(DateTime(timezone=True), server_default=func.now, onupdate=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     @property
     def available(self):

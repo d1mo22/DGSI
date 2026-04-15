@@ -7,7 +7,7 @@ from decimal import Decimal
 
 from app.models.event import EventLog
 from app.models.order import ManufacturingOrder
-from app.models.product import ProductModel
+from app.models.product import ProductModel, BOMItem
 from app.models.purchase_order import PurchaseOrder
 from app.core.config import get_settings
 from app.services.inventory_service import InventoryService
@@ -19,10 +19,41 @@ class SimulationEngine:
     def __init__(self, db: Session):
         self.db = db
         self.settings = get_settings()
-        self.current_day = 1
-        self.current_date = datetime.strptime(
-            self.settings.SIMULATION_START_DATE, "%Y-%m-%d"
-        ).date()
+        self._load_state()
+
+    def _load_state(self):
+        """Load simulation state from database."""
+        import json as _json
+        from app.models.simulation import SimulationState
+        state = self.db.query(SimulationState).first()
+        if state:
+            self.current_day = state.current_day
+            self.current_date = datetime.strptime(state.current_date, "%Y-%m-%d").date()
+            self._demand_params = _json.loads(state.demand_params) if state.demand_params else None
+            self._capacity_per_day = state.capacity_per_day
+        else:
+            self.current_day = 1
+            self.current_date = datetime.strptime(
+                self.settings.SIMULATION_START_DATE, "%Y-%m-%d"
+            ).date()
+            self._demand_params = None
+            self._capacity_per_day = self.settings.DEFAULT_CAPACITY_PER_DAY
+
+    def _save_state(self):
+        """Persist simulation state to database."""
+        import json as _json
+        from app.models.simulation import SimulationState
+        state = self.db.query(SimulationState).first()
+        if state:
+            state.current_day = self.current_day
+            state.current_date = self.current_date.isoformat()
+        else:
+            state = SimulationState(
+                current_day=self.current_day,
+                current_date=self.current_date.isoformat()
+            )
+            self.db.add(state)
+        self.db.commit()
 
     def advance_day(self) -> Dict:
         """Advance simulation by one day."""
@@ -44,10 +75,11 @@ class SimulationEngine:
         snapshot_event = self._take_inventory_snapshot()
         events.append(snapshot_event)
 
-        # Increment day counter
+        # Increment day counter and persist
         previous_day = self.current_day
         self.current_day += 1
         self.current_date += timedelta(days=1)
+        self._save_state()
 
         return {
             "previous_day": previous_day,
@@ -116,8 +148,8 @@ class SimulationEngine:
         """Generate new manufacturing orders based on demand parameters."""
         events = []
 
-        # Default demand params (can be configured via API later)
-        demand_params = {
+        # Use DB-stored demand params or defaults
+        demand_params = self._demand_params or {
             "P3D-Classic": {"mean": 8, "variance": 3},
             "P3D-Pro": {"mean": 5, "variance": 2}
         }
@@ -160,7 +192,7 @@ class SimulationEngine:
     def _process_manufacturing_orders(self) -> List[Dict]:
         """Process manufacturing orders within daily capacity."""
         events = []
-        capacity_per_day = self.settings.DEFAULT_CAPACITY_PER_DAY
+        capacity_per_day = self._capacity_per_day
         produced_today = 0
 
         # Get released orders
@@ -266,5 +298,31 @@ class SimulationEngine:
             "current_date": self.current_date.isoformat(),
             "sim_start_date": self.settings.SIMULATION_START_DATE,
             "pending_orders_count": pending_count,
-            "capacity_per_day": self.settings.DEFAULT_CAPACITY_PER_DAY
+            "capacity_per_day": self._capacity_per_day
+        }
+
+    def update_demand_params(self, params: Dict) -> None:
+        """Update demand parameters and persist to DB."""
+        import json as _json
+        from app.models.simulation import SimulationState
+        self._demand_params = params
+        state = self.db.query(SimulationState).first()
+        if state:
+            state.demand_params = _json.dumps(params)
+            self.db.commit()
+
+    def update_capacity(self, capacity_per_day: int) -> None:
+        """Update daily capacity and persist to DB."""
+        from app.models.simulation import SimulationState
+        self._capacity_per_day = capacity_per_day
+        state = self.db.query(SimulationState).first()
+        if state:
+            state.capacity_per_day = capacity_per_day
+            self.db.commit()
+
+    def get_demand_params(self) -> Dict:
+        """Get current demand parameters."""
+        return self._demand_params or {
+            "P3D-Classic": {"mean": 8, "variance": 3},
+            "P3D-Pro": {"mean": 5, "variance": 2}
         }
