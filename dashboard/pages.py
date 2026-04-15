@@ -7,6 +7,7 @@ from dashboard.style import inject_styles
 from dashboard.components.inventory_panel import render_inventory_panel
 from dashboard.components.orders_panel import render_orders_panel
 from dashboard.components.header import render_header
+from dashboard.components.event_log import render_event_log
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
@@ -160,48 +161,9 @@ def main_dashboard():
         except Exception as e:
             st.error(f"Failed to load POs: {e}")
 
-    # ── Event Ticker ──
+    # ── Event Log ──
     st.divider()
-    st.subheader("📜 Event Log")
-    col_events, col_filter = st.columns([3, 1])
-    with col_filter:
-        event_type_filter = st.text_input("Filter type", placeholder="e.g. demand_generated")
-        event_limit = st.number_input("Show last", min_value=5, max_value=200, value=20, step=5)
-
-    with col_events:
-        try:
-            params = {"page_size": event_limit}
-            if event_type_filter:
-                params["event_type"] = event_type_filter
-            events_data = get("/api/events", params=params)
-            events = events_data.get("items", [])
-
-            EVENT_ICONS = {
-                "day_advanced": "⏩",
-                "demand_generated": "📊",
-                "demand_batch": "📊",
-                "order_released": "🚀",
-                "order_cancelled": "❌",
-                "order_completed": "✅",
-                "material_consumed": "⚙️",
-                "po_created": "📦",
-                "po_arrived": "📬",
-                "po_partial_delivery": "📬",
-                "po_cancelled": "❌",
-                "inventory_snapshot": "📸",
-                "inventory_adjustment": "✏️",
-                "order_created_manual": "➕",
-            }
-
-            if events:
-                for ev in events:
-                    icon = EVENT_ICONS.get(ev["event_type"], "📌")
-                    date = (ev.get("event_date") or "")[:19]
-                    st.text(f"{icon}  [{date}] {ev['event_type']:30s}  {ev['details'][:80]}")
-            else:
-                st.info("No events yet. Try advancing a day!")
-        except Exception as e:
-            st.error(f"Failed to load events: {e}")
+    render_event_log(get)
 
     # ── Import / Export ──
     st.divider()
