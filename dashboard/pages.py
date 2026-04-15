@@ -6,6 +6,7 @@ import streamlit as st
 from dashboard.style import inject_styles
 from dashboard.components.inventory_panel import render_inventory_panel
 from dashboard.components.orders_panel import render_orders_panel
+from dashboard.components.header import render_header
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
@@ -63,33 +64,8 @@ def main_dashboard():
     inject_styles()
     user = st.session_state.get("user", {})
 
-    # ── Header ──
-    col_title, col_day, col_user = st.columns([3, 2, 1])
-    with col_title:
-        st.title("🖨️ 3D Printer Production Simulator")
-    with col_day:
-        try:
-            status = get("/api/simulation/status")
-            st.metric("Simulation Day", status["current_day"], delta=None)
-            st.caption(f"Date: {status['current_date']}  |  Capacity: {status['capacity_per_day']} units/day")
-        except Exception:
-            st.metric("Simulation Day", "?")
-    with col_user:
-        st.caption(f"👤 {user.get('username', '?')} ({user.get('role', '?')})")
-        if st.button("Logout", use_container_width=True):
-            st.session_state.clear()
-            st.rerun()
-
+    render_header(get, post, user)
     st.divider()
-
-    # ── Advance Day button ──
-    if st.button("⏩ Advance Day", type="primary", use_container_width=False):
-        with st.spinner("Advancing simulation..."):
-            result = post("/api/simulation/advance")
-        if result:
-            st.success(f"Day {result['previous_day']} → {result['new_day']} | {len(result['events_generated'])} events")
-            st.session_state["last_events"] = result["events_generated"]
-            st.rerun()
 
     # ── 3-panel layout ──
     left, center, right = st.columns([1, 1.2, 0.8])
