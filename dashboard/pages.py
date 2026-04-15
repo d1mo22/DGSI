@@ -4,6 +4,7 @@ import requests
 import streamlit as st
 
 from dashboard.style import inject_styles
+from dashboard.components.inventory_panel import render_inventory_panel
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
@@ -94,26 +95,7 @@ def main_dashboard():
 
     # ── LEFT: Inventory ──
     with left:
-        st.subheader("📦 Inventory")
-        try:
-            inv_data = get("/api/inventory")
-            usage_pct = inv_data.get("usage_pct", 0)
-            color = "red" if usage_pct > 90 else "orange" if usage_pct > 70 else "green"
-            st.progress(min(usage_pct / 100, 1.0), text=f"Warehouse: {usage_pct:.1f}%")
-
-            for item in sorted(inv_data.get("items", []), key=lambda x: x["product_name"]):
-                qty = item["quantity"]
-                avail = item["available"]
-                reserved = item["reserved_quantity"]
-                pct = avail / max(qty, 1)
-                bar_color = "🔴" if pct < 0.2 else "🟡" if pct < 0.5 else "🟢"
-                with st.expander(f"{bar_color} **{item['product_name']}** — {avail:.0f} avail / {qty:.0f} total"):
-                    c1, c2, c3 = st.columns(3)
-                    c1.metric("Total", f"{qty:.0f}")
-                    c2.metric("Reserved", f"{reserved:.0f}")
-                    c3.metric("Available", f"{avail:.0f}")
-        except Exception as e:
-            st.error(f"Failed to load inventory: {e}")
+        render_inventory_panel(get, post)
 
     # ── CENTER: Manufacturing Orders ──
     with center:
