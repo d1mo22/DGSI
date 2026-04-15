@@ -5,6 +5,7 @@ import streamlit as st
 
 from dashboard.style import inject_styles
 from dashboard.components.inventory_panel import render_inventory_panel
+from dashboard.components.orders_panel import render_orders_panel
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
@@ -99,66 +100,7 @@ def main_dashboard():
 
     # ── CENTER: Manufacturing Orders ──
     with center:
-        st.subheader("📋 Manufacturing Orders")
-
-        # Filter controls
-        status_filter = st.selectbox(
-            "Filter by status",
-            ["all", "pending", "released", "waiting_materials", "completed", "cancelled"],
-            key="order_status_filter",
-        )
-
-        try:
-            all_orders = get("/api/orders")
-            if status_filter != "all":
-                orders = [o for o in all_orders if o["status"] == status_filter]
-            else:
-                orders = all_orders
-
-            pending = [o for o in all_orders if o["status"] == "pending"]
-            released = [o for o in all_orders if o["status"] == "released"]
-            waiting = [o for o in all_orders if o["status"] == "waiting_materials"]
-            col1, col2, col3 = st.columns(3)
-            col1.metric("Pending", len(pending))
-            col2.metric("Released", len(released))
-            col3.metric("Waiting", len(waiting))
-
-            st.divider()
-
-            if not orders:
-                st.info("No orders match the selected filter.")
-            else:
-                for order in orders[:20]:  # show max 20
-                    status_icon = {
-                        "pending": "🟡",
-                        "released": "🔵",
-                        "waiting_materials": "🔴",
-                        "completed": "✅",
-                        "cancelled": "⬛",
-                        "failed": "❌",
-                    }.get(order["status"], "⚪")
-
-                    label = f"{status_icon} #{order['id']} — {order['product_model']} × {order['quantity_needed']:.0f}"
-                    with st.expander(label):
-                        st.caption(f"Status: **{order['status']}**  |  Created: {order['created_date'][:10] if order['created_date'] else 'N/A'}")
-                        prog = order["quantity_produced"] / max(order["quantity_needed"], 1)
-                        st.progress(prog, text=f"Produced: {order['quantity_produced']:.0f} / {order['quantity_needed']:.0f}")
-
-                        if order["status"] == "pending":
-                            c1, c2 = st.columns(2)
-                            if c1.button("✅ Release", key=f"release_{order['id']}", use_container_width=True):
-                                result = post(f"/api/orders/{order['id']}/release")
-                                if result:
-                                    st.success("Order released to production!")
-                                    st.rerun()
-                            if c2.button("❌ Cancel", key=f"cancel_{order['id']}", use_container_width=True):
-                                result = post(f"/api/orders/{order['id']}/cancel")
-                                if result:
-                                    st.info("Order cancelled.")
-                                    st.rerun()
-
-        except Exception as e:
-            st.error(f"Failed to load orders: {e}")
+        render_orders_panel(get, post)
 
     # ── RIGHT: Actions Panel ──
     with right:
