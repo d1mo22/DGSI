@@ -92,10 +92,16 @@ class SimulationEngine:
         """Process purchase orders due today."""
         events = []
 
-        todays_po = self.db.query(PurchaseOrder).filter(
-            PurchaseOrder.expected_delivery <= self.current_date,
+        # Get all pending or partial POs
+        all_pos = self.db.query(PurchaseOrder).filter(
             PurchaseOrder.status.in_(["pending", "partial"])
         ).all()
+
+        # Filter in Python to handle date vs datetime comparison correctly
+        todays_po = [
+            po for po in all_pos 
+            if po.expected_delivery.date() <= self.current_date
+        ]
 
         for po in todays_po:
             # Check if partial delivery (~5-10% chance)
@@ -145,39 +151,40 @@ class SimulationEngine:
         return events
 
     def _generate_demand(self) -> List[Dict]:
-        """Generate new manufacturing orders based on demand parameters."""
+        """Generate new manufacturing orders based on simple random distribution (1-3 per day)."""
         events = []
 
-        # Use DB-stored demand params or defaults
-        demand_params = self._demand_params or {
-            "P3D-Classic": {"mean": 8, "variance": 3},
-            "P3D-Pro": {"mean": 5, "variance": 2}
-        }
-
         from app.models.order import ManufacturingOrder
+        from app.models.product import ProductModel
 
+        # Simple random distribution: 1-3 new orders per day
+        num_new_orders = random.randint(1, 3)
         total_orders = 0
-        for model_id, params in demand_params.items():
-            # Generate random demand using normal distribution
-            mean = params["mean"]
-            std_dev = params["variance"]
-            quantity = max(0, int(random.gauss(mean, std_dev)))
 
-            if quantity > 0:
-                order = ManufacturingOrder(
-                    product_model=model_id,
-                    quantity_needed=Decimal(str(quantity)),
-                    quantity_produced=Decimal("0"),
-                    status="pending",
-                    created_date=self.current_date
-                )
-                self.db.add(order)
-                total_orders += 1
-                events.append({
-                    "type": "demand_generated",
-                    "model": model_id,
-                    "quantity": quantity
-                })
+        # Get available product models to choose from
+        product_models = self.db.query(ProductModel).all()
+        if not product_models:
+            return events
+
+        for _ in range(num_new_orders):
+            model = random.choice(product_models)
+            # Random quantity between 5 and 20
+            quantity = random.randint(5, 20)
+
+            order = ManufacturingOrder(
+                product_model=model.id,
+                quantity_needed=Decimal(str(quantity)),
+                quantity_produced=Decimal("0"),
+                status="pending",
+                created_date=self.current_date
+            )
+            self.db.add(order)
+            total_orders += 1
+            events.append({
+                "type": "demand_generated",
+                "model": model.id,
+                "quantity": quantity
+            })
 
         self.db.commit()
 
@@ -209,24 +216,19 @@ class SimulationEngine:
             can_produce = min(remaining_to_produce, capacity_per_day - produced_today)
 
             if can_produce > 0:
+                # Update quantity produced
                 order.quantity_produced += Decimal(str(can_produce))
                 produced_today += int(can_produce)
 
-                # Consume materials
+                # Consume materials from reserved stock
                 from app.services.inventory_service import InventoryService
-                bom_reqs = self.calculate_bom_requirements_for_order(order)
+                bom_reqs_per_unit = self.calculate_bom_requirements_for_order(order)
                 inv_svc = InventoryService(self.db)
 
-                for material, qty_per_unit in bom_reqs.items():
-                    total_consumed = qty_per_unit * can_produce
-                    inv_svc.consume(material, Decimal(str(total_consumed)))
-
-                events.append({
-                    "type": "material_consumed",
-                    "order_id": order.id,
-                    "produced": int(can_produce),
-                    "materials": bom_reqs
-                })
+                for material, qty_per_unit in bom_reqs_per_unit.items():
+                    total_consumed = Decimal(str(qty_per_unit * can_produce))
+                    # consume() subtracts from both total quantity AND reserved quantity
+                    inv_svc.consume(material, total_consumed)
 
                 # Check if order is complete
                 if float(order.quantity_produced) >= float(order.quantity_needed):
