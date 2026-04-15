@@ -3,6 +3,8 @@ import json
 import requests
 import streamlit as st
 
+from dashboard.style import inject_styles
+
 # ── Configuration ────────────────────────────────────────────────────────────
 
 API_BASE = "http://localhost:8000"
@@ -30,6 +32,7 @@ def post(path: str, **kwargs):
 # ── Auth ─────────────────────────────────────────────────────────────────────
 
 def login_page():
+    inject_styles()
     st.title("🖨️ Production Simulator")
     st.subheader("Login")
     with st.form("login_form"):
@@ -55,6 +58,7 @@ def login_page():
 # ── Main dashboard ────────────────────────────────────────────────────────────
 
 def main_dashboard():
+    inject_styles()
     user = st.session_state.get("user", {})
 
     # ── Header ──
