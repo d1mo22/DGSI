@@ -180,9 +180,15 @@ h3 { font-size: 13px !important; font-weight: 600 !important; }
 .stWarning { background: var(--warning-muted) !important; border-left-color: var(--warning) !important; }
 
 /* ── Sidebar (collapsed) ── */
-[data-testid="stSidebar"] {
+.stSidebar [data-testid="stSidebar"] {
   background: var(--bg-base) !important;
   border-right: 1px solid var(--border) !important;
+}
+
+/* ── Remove "press enter to submit" hint ── */
+[data-testid="stFormSubmitButton"] + div,
+[data-testid="stForm"] div[data-testid="stMarkdownContainer"] p small {
+  display: none !important;
 }
 
 /* ── Custom HTML components ── */
