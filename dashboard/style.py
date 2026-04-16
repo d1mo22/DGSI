@@ -187,7 +187,13 @@ h3 { font-size: 13px !important; font-weight: 600 !important; }
 
 /* ── Remove "press enter to submit" hint ── */
 [data-testid="stFormSubmitButton"] + div,
-[data-testid="stForm"] div[data-testid="stMarkdownContainer"] p small {
+[data-testid="stFormSubmitButton"] + p,
+[data-testid="stForm"] div[data-testid="stMarkdownContainer"] p small,
+.stForm p {
+  display: none !important;
+}
+
+div.stFormSubmitButton + div {
   display: none !important;
 }
 
