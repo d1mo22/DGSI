@@ -1,4 +1,10 @@
 """3D Printer Production Simulator — Streamlit dashboard entry point."""
+import os
+import sys
+
+# Ensure project root is in sys.path for module discovery
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import json
 import requests
 import streamlit as st
@@ -61,26 +67,25 @@ def login_page() -> None:
             password = st.text_input("Password", type="password", label_visibility="collapsed")
             st.write("")
             submitted = st.form_submit_button("Sign In", use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-        st.markdown(
-            '<p style="text-align:center;color:#334155;font-size:10px;margin-top:12px">'
-            'Default: admin / admin123</p>',
-            unsafe_allow_html=True,
-        )
 
-    if submitted:
-        r = requests.post(
-            f"{API_BASE}/api/auth/login",
-            data={"username": username, "password": password},
-            timeout=5,
-        )
-        if r.ok:
-            data = r.json()
-            st.session_state["token"] = data["access_token"]
-            st.session_state["user"] = data["user"]
-            st.rerun()
-        else:
-            st.error("Invalid credentials.")
+        if submitted:
+            try:
+                r = requests.post(
+                    f"{API_BASE}/api/auth/login",
+                    data={"username": username, "password": password},
+                    timeout=5,
+                )
+                if r.ok:
+                    data = r.json()
+                    st.session_state["token"] = data["access_token"]
+                    st.session_state["user"] = data["user"]
+                    st.rerun()
+                else:
+                    st.error("Invalid credentials.")
+            except requests.exceptions.ConnectionError:
+                st.error("Cannot connect to API server. Please ensure the backend is running on port 8000.")
+
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 def main_dashboard() -> None:
