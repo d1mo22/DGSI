@@ -41,14 +41,16 @@ def login_page() -> None:
     inject_styles()
     _, col, _ = st.columns([1, 1.2, 1])
     with col:
+        # Header Box (Sized to fit text precisely)
         st.markdown(
-            '<div style="margin-top:80px;padding:32px;background:#1E293B;'
-            'border:1px solid #334155;border-radius:10px;">'
-            '<div style="text-align:center;margin-bottom:24px">'
+            '<div style="text-align:center; margin-top:80px; margin-bottom: 24px;">'
+            '<div style="display:inline-block; padding:16px 32px; background:#1E293B;'
+            'border:1px solid #334155; border-radius:10px; width: auto;">'
             '<div style="font-size:13px;font-weight:600;letter-spacing:0.06em;'
-            'color:#F8FAFC;margin-bottom:4px">DGSI PRODUCTION SIMULATOR</div>'
-            '<div style="font-size:10px;color:#475569;letter-spacing:0.04em">'
-            '3D Printer Factory Operations</div>'
+            'color:#F8FAFC;margin-bottom:4px; white-space: nowrap;">DGSI PRODUCTION SIMULATOR</div>'
+            '<div style="font-size:10px;color:#475569;letter-spacing:0.04em;'
+            'white-space: nowrap;">3D Printer Factory Operations</div>'
+            '</div>'
             '</div>',
             unsafe_allow_html=True,
         )

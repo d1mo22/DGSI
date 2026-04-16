@@ -22,6 +22,7 @@ class InventoryItemResponse(BaseModel):
     quantity: float
     reserved_quantity: float
     available: float
+    max_capacity: float
     unit_type: str
 
 
@@ -107,5 +108,6 @@ def _serialize(item) -> dict:
         "quantity": float(item.quantity),
         "reserved_quantity": float(item.reserved_quantity),
         "available": float(item.quantity - item.reserved_quantity),
+        "max_capacity": float(getattr(item, "max_capacity", 250)),
         "unit_type": item.unit_type or "raw",
     }

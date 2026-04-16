@@ -70,11 +70,14 @@ def render_actions_panel(get_fn, post_fn) -> None:
             st.markdown('<p style="color:#475569;font-size:11px">No suppliers configured.</p>',
                         unsafe_allow_html=True)
         else:
+            # We move selectboxes OUTSIDE the form to enable reactivity (dependent dropdowns)
+            supplier_name = st.selectbox("Supplier", list(supplier_map.keys()))
+            supplier = supplier_map.get(supplier_name, {})
+            product_options = [p["product_name"] for p in supplier.get("products", [])]
+            selected_product = st.selectbox("Product", product_options) if product_options else None
+            
+            # Now the form only handles the quantity and submission
             with st.form("new_po_form"):
-                supplier_name = st.selectbox("Supplier", list(supplier_map.keys()))
-                supplier = supplier_map.get(supplier_name, {})
-                product_options = [p["product_name"] for p in supplier.get("products", [])]
-                selected_product = st.selectbox("Product", product_options) if product_options else None
                 po_qty = st.number_input("Qty", min_value=1, value=100, step=10)
 
                 # Live pricing preview

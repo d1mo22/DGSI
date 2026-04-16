@@ -33,12 +33,20 @@ def _warehouse_bar_html(usage_pct: float) -> str:
 
 
 def _bin_row_html(item: dict) -> str:
+    # Use the max_capacity from the database/API
+    max_cap = float(item.get("max_capacity", 250.0))
     qty = float(item["quantity"])
     avail = float(item["available"])
-    pct = avail / max(qty, 1)
-    fill_color, badge_class = _bin_color(pct)
-    badge = _badge_text(pct)
-    bar_width = f"{max(pct * 100, 1):.1f}%"
+    
+    # Percentage for the visual bar (how full is this "bin" compared to its capacity)
+    visual_pct = min(avail / max_cap, 1.0)
+    
+    # Color logic and badge based on capacity
+    # Critical if < 20% of capacity, Low if < 50%
+    fill_color, badge_class = _bin_color(visual_pct)
+    badge = _badge_text(visual_pct)
+    
+    bar_width = f"{max(visual_pct * 100, 1):.1f}%"
     name = item["product_name"].replace("_", " ")
     return f"""
 <div class="bin-row">
@@ -47,7 +55,7 @@ def _bin_row_html(item: dict) -> str:
     <div class="bin-fill" style="width:{bar_width};background:{fill_color}"></div>
   </div>
   <span class="bin-avail">{avail:.0f}</span>
-  <span class="bin-total">/{qty:.0f}</span>
+  <span class="bin-total">/{max_cap:.0f}</span>
   <span class="bin-badge {badge_class}">{badge}</span>
 </div>"""
 

@@ -96,10 +96,17 @@ def initialize_seed_data(db: Session = None):
         for product_name, inv_data in plan["initial_inventory"].items():
             existing = db.query(Inventory).filter(Inventory.product_name == product_name).first()
             if not existing:
+                # Set a realistic max capacity (default 250 or specific to part)
+                max_cap = 250
+                if "motor" in product_name: max_cap = 500
+                if "kit" in product_name: max_cap = 200
+                if "sensor" in product_name: max_cap = 300
+                
                 inventory = Inventory(
                     product_name=product_name,
                     quantity=Decimal(str(inv_data["qty"])),
                     reserved_quantity=Decimal("0"),
+                    max_capacity=Decimal(str(max_cap)),
                     unit_type=inv_data.get("type", "raw")
                 )
                 db.add(inventory)

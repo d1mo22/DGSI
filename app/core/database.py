@@ -12,7 +12,7 @@ DATABASE_URL = os.getenv(
 
 # Ensure data directory exists
 if "sqlite" in DATABASE_URL:
-    db_path = Path(DATABASE_URL.replace("sqlite:/// ", ""))
+    db_path = Path(DATABASE_URL.replace("sqlite:///", ""))
     db_path.parent.mkdir(parents=True, exist_ok=True)
 
 engine = create_engine(
