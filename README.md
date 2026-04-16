@@ -56,13 +56,13 @@ DGSI (Data-Dense Global Simulation Interface) is a simulation system designed to
 
 1.  **Start the Backend (FastAPI)**:
     ```bash
-    uvicorn app.main:app --reload --port 8000
+    PYTHONPATH=. uvicorn app.main:app --reload --port 8000
     ```
     Access the API documentation at [http://localhost:8000/docs](http://localhost:8000/docs).
 
 2.  **Start the Dashboard (Streamlit)**:
     ```bash
-    streamlit run dashboard/pages.py
+    PYTHONPATH=. streamlit run dashboard/pages.py
     ```
     Access the UI at [http://localhost:8501](http://localhost:8501).
 
