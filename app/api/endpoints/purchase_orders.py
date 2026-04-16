@@ -83,8 +83,10 @@ def create_purchase_order(
 
     unit_cost = _calculate_unit_cost(sup_product, body.quantity)
 
-    now = datetime.utcnow()
-    expected = now + timedelta(days=supplier.lead_time_days)
+    from app.services.simulation_engine import SimulationEngine
+    engine = SimulationEngine(db)
+    sim_now = engine.current_date
+    expected = sim_now + timedelta(days=supplier.lead_time_days)
 
     po = PurchaseOrder(
         supplier_id=body.supplier_id,
@@ -92,15 +94,15 @@ def create_purchase_order(
         quantity_ordered=Decimal(str(body.quantity)),
         quantity_delivered=Decimal("0"),
         unit_cost=Decimal(str(unit_cost)),
-        order_date=now,
-        expected_delivery=expected,
+        order_date=datetime.combine(sim_now, datetime.min.time()),
+        expected_delivery=datetime.combine(expected, datetime.min.time()),
         status="pending",
     )
     db.add(po)
 
     event = EventLog(
         event_type="po_created",
-        event_date=now,
+        event_date=datetime.combine(sim_now, datetime.min.time()),
         details=str({
             "supplier": supplier.name,
             "product": body.product_name,

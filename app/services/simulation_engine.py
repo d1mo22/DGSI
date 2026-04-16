@@ -199,8 +199,8 @@ class SimulationEngine:
     def _process_manufacturing_orders(self) -> List[Dict]:
         """Process manufacturing orders within daily capacity."""
         events = []
-        capacity_per_day = self._capacity_per_day
-        produced_today = 0
+        capacity_per_day = float(self._capacity_per_day)
+        produced_today = 0.0
 
         # Get released orders
         released_orders = self.db.query(ManufacturingOrder).filter(
@@ -218,7 +218,7 @@ class SimulationEngine:
             if can_produce > 0:
                 # Update quantity produced
                 order.quantity_produced += Decimal(str(can_produce))
-                produced_today += int(can_produce)
+                produced_today += float(can_produce)
 
                 # Consume materials from reserved stock
                 from app.services.inventory_service import InventoryService
