@@ -202,6 +202,9 @@ class SimulationEngine:
         capacity_per_day = float(self._capacity_per_day)
         produced_today = 0.0
 
+        from app.services.order_service import OrderService
+        order_svc = OrderService(self.db)
+
         # Get released orders
         released_orders = self.db.query(ManufacturingOrder).filter(
             ManufacturingOrder.status == "released"
@@ -216,32 +219,19 @@ class SimulationEngine:
             can_produce = min(remaining_to_produce, capacity_per_day - produced_today)
 
             if can_produce > 0:
-                # Update quantity produced
-                order.quantity_produced += Decimal(str(can_produce))
+                # Call OrderService to handle logic
+                order_svc.produce_units(order.id, can_produce, self.current_date)
                 produced_today += float(can_produce)
 
-                # Consume materials from reserved stock
-                from app.services.inventory_service import InventoryService
-                bom_reqs_per_unit = self.calculate_bom_requirements_for_order(order)
-                inv_svc = InventoryService(self.db)
-
-                for material, qty_per_unit in bom_reqs_per_unit.items():
-                    total_consumed = Decimal(str(qty_per_unit * can_produce))
-                    # consume() subtracts from both total quantity AND reserved quantity
-                    inv_svc.consume(material, total_consumed)
-
-                # Check if order is complete
-                if float(order.quantity_produced) >= float(order.quantity_needed):
-                    order.status = "completed"
-                    order.completed_date = self.current_date
+                # Check if order was completed for logging
+                self.db.refresh(order)
+                if order.status == "completed":
                     events.append({
                         "type": "order_completed",
                         "order_id": order.id,
                         "model": order.product_model,
                         "quantity": int(order.quantity_needed)
                     })
-
-        self.db.commit()
 
         if produced_today > 0:
             events.insert(0, {
@@ -251,14 +241,6 @@ class SimulationEngine:
             })
 
         return events
-
-    def calculate_bom_requirements_for_order(self, order: ManufacturingOrder) -> Dict[str, float]:
-        """Calculate materials required per unit for an order."""
-        bom_items = self.db.query(BOMItem).filter(
-            BOMItem.model_id == order.product_model
-        ).all()
-
-        return {item.material_name: float(item.quantity_required) for item in bom_items}
 
     def _take_inventory_snapshot(self) -> Dict:
         """Take daily inventory snapshot."""

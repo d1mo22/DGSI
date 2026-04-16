@@ -121,6 +121,34 @@ class OrderService:
         self.db.commit()
         return True, None
 
+    def produce_units(self, order_id: int, quantity: float, current_date: datetime.date) -> bool:
+        """Produce a specific quantity of units for an order."""
+        from app.services.inventory_service import InventoryService
+        
+        order = self.get_by_id(order_id)
+        if not order or order.status != "released":
+            return False
+
+        # Update production quantity
+        order.quantity_produced += Decimal(str(quantity))
+
+        # Consume materials from reserved stock
+        inv_svc = InventoryService(self.db)
+        # Calculate requirements per unit
+        bom_items = self.db.query(BOMItem).filter(BOMItem.model_id == order.product_model).all()
+        
+        for item in bom_items:
+            total_consumed = Decimal(str(float(item.quantity_required) * quantity))
+            inv_svc.consume(item.material_name, total_consumed)
+
+        # Check for completion
+        if float(order.quantity_produced) >= float(order.quantity_needed):
+            order.status = "completed"
+            order.completed_date = current_date
+
+        self.db.commit()
+        return True
+
     def cancel(self, order_id: int) -> bool:
         """Cancel order and release reserved materials."""
         from app.services.inventory_service import InventoryService
