@@ -4,11 +4,11 @@
 Implement full game state export to JSON.
 
 ## Tasks
-- [ ] Create export function for all state
-- [ ] Include config, inventory, orders, POs, events
-- [ ] Add version and timestamp metadata
-- [ ] API endpoint /api/export/full-state
-- [ ] Download button in dashboard
+- [x] Create export function for all state
+- [x] Include config, inventory, orders, POs, events
+- [x] Add version and timestamp metadata
+- [x] API endpoint /api/export/full-state
+- [x] Download button in dashboard
 
 ## Acceptance Criteria
 - Export matches schema from PRD

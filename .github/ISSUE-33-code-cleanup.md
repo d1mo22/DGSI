@@ -4,11 +4,11 @@
 Clean up code and add comprehensive documentation.
 
 ## Tasks
-- [ ] Add docstrings to all public functions/classes
-- [ ] Comment complex logic
-- [ ] Remove dead code
-- [ ] Standardize formatting (ruff)
-- [ ] Review for code smells
+- [x] Add docstrings to all public functions/classes
+- [x] Comment complex logic
+- [x] Remove dead code
+- [x] Standardize formatting (ruff)
+- [x] Review for code smells
 
 ## Acceptance Criteria
 - All modules have docstrings

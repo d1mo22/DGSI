@@ -4,12 +4,12 @@
 Write integration tests for all API endpoints.
 
 ## Tasks
-- [ ] Test auth endpoints
-- [ ] Test config endpoints
-- [ ] Test inventory endpoints
-- [ ] Test order endpoints
-- [ ] Test PO endpoints
-- [ ] Test simulation endpoints
+- [x] Test auth endpoints
+- [x] Test config endpoints
+- [x] Test inventory endpoints
+- [x] Test order endpoints
+- [x] Test PO endpoints
+- [x] Test simulation endpoints
 
 ## Acceptance Criteria
 - All endpoints tested with valid/invalid data

@@ -4,13 +4,13 @@
 Implement a complete authentication system for the simulator.
 
 ## Tasks
-- [ ] Create password hashing utilities (bcrypt)
-- [ ] Create JWT token generation and validation
-- [ ] Implement login endpoint with rate limiting
-- [ ] Implement logout endpoint
-- [ ] Implement current user endpoint
-- [ ] Create auth dependency for protected routes
-- [ ] Seed default admin user on first run
+- [x] Create password hashing utilities (bcrypt)
+- [x] Create JWT token generation and validation
+- [x] Implement login endpoint with rate limiting
+- [x] Implement logout endpoint
+- [x] Implement current user endpoint
+- [x] Create auth dependency for protected routes
+- [x] Seed default admin user on first run
 
 ## Acceptance Criteria
 - Users can login with username/password

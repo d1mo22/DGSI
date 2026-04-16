@@ -4,12 +4,12 @@
 Implement REST API endpoints for manufacturing orders.
 
 ## Tasks
-- [ ] GET /api/orders - List all manufacturing orders
-- [ ] GET /api/orders/pending - List pending orders only
-- [ ] GET /api/orders/{order_id} - Get order details with BOM
-- [ ] POST /api/orders - Create manual order
-- [ ] POST /api/orders/{order_id}/release - Release order to production
-- [ ] POST /api/orders/{order_id}/cancel - Cancel order
+- [x] GET /api/orders - List all manufacturing orders
+- [x] GET /api/orders/pending - List pending orders only
+- [x] GET /api/orders/{order_id} - Get order details with BOM
+- [x] POST /api/orders - Create manual order
+- [x] POST /api/orders/{order_id}/release - Release order to production
+- [x] POST /api/orders/{order_id}/cancel - Cancel order
 
 ## Acceptance Criteria
 - BOM breakdown included in order details

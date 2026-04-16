@@ -4,12 +4,12 @@
 Create sample data seeding functionality for getting started quickly.
 
 ## Tasks
-- [ ] Create default production plan JSON file
-- [ ] Implement seed function for initial data
-- [ ] Add P3D-Classic and P3D-Pro models with BOMs
-- [ ] Add sample suppliers with pricing tiers
-- [ ] Add sample inventory starting values
-- [ ] Create admin user seeding
+- [x] Create default production plan JSON file
+- [x] Implement seed function for initial data
+- [x] Add P3D-Classic and P3D-Pro models with BOMs
+- [x] Add sample suppliers with pricing tiers
+- [x] Add sample inventory starting values
+- [x] Create admin user seeding
 
 ## Acceptance Criteria
 - Running the app for first time shows pre-configured data

@@ -4,10 +4,10 @@
 Ensure all API endpoints are properly documented in Swagger/OpenAPI.
 
 ## Tasks
-- [ ] Verify all endpoints appear in /docs
-- [ ] Add descriptions to all operations
-- [ ] Add request/response examples
-- [ ] Test all endpoints via Swagger UI
+- [x] Verify all endpoints appear in /docs
+- [x] Add descriptions to all operations
+- [x] Add request/response examples
+- [x] Test all endpoints via Swagger UI
 
 ## Acceptance Criteria
 - Complete API documentation at /docs

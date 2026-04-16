@@ -4,11 +4,11 @@
 Write comprehensive unit tests for all service layers.
 
 ## Tasks
-- [ ] Test inventory service functions
-- [ ] Test order service functions
-- [ ] Test purchase order service functions
-- [ ] Test simulation engine functions
-- [ ] Achieve >80% code coverage
+- [x] Test inventory service functions
+- [x] Test order service functions
+- [x] Test purchase order service functions
+- [x] Test simulation engine functions
+- [x] Achieve >80% code coverage
 
 ## Acceptance Criteria
 - All critical paths tested

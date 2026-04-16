@@ -4,9 +4,9 @@
 Buffer time for unexpected issues.
 
 ## Tasks
-- [ ] Address any blockers from previous issues
-- [ ] Performance optimization if needed
-- [ ] Additional testing if required
+- [x] Address any blockers from previous issues
+- [x] Performance optimization if needed
+- [x] Additional testing if required
 
 ## Acceptance Criteria
 - No blockers remain

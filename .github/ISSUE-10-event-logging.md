@@ -4,14 +4,14 @@
 Implement comprehensive event logging for all simulation activities.
 
 ## Tasks
-- [ ] Define all event types (order_released, material_consumed, po_created, etc.)
-- [ ] Implement event creation utility
-- [ ] Log order releases
-- [ ] Log material consumption
-- [ ] Log PO creation and arrivals
-- [ ] Log failed orders
-- [ ] Daily inventory snapshots
-- [ ] User actions audit trail
+- [x] Define all event types (order_released, material_consumed, po_created, etc.)
+- [x] Implement event creation utility
+- [x] Log order releases
+- [x] Log material consumption
+- [x] Log PO creation and arrivals
+- [x] Log failed orders
+- [x] Daily inventory snapshots
+- [x] User actions audit trail
 
 ## Acceptance Criteria
 - All state changes logged

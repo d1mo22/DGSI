@@ -4,10 +4,10 @@
 Review and complete API documentation in Swagger.
 
 ## Tasks
-- [ ] Verify all endpoints have descriptions
-- [ ] Add request/response examples
-- [ ] Document all error responses
-- [ ] Test all endpoints via Swagger UI
+- [x] Verify all endpoints have descriptions
+- [x] Add request/response examples
+- [x] Document all error responses
+- [x] Test all endpoints via Swagger UI
 
 ## Acceptance Criteria
 - Complete OpenAPI spec at /docs

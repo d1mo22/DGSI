@@ -4,12 +4,12 @@
 Create the orders display panel with expandable BOM breakdown.
 
 ## Tasks
-- [ ] List pending orders
-- [ ] Expandable order details showing BOM
-- [ ] Show material availability per item (checkmark/warning)
-- [ ] Indicate missing materials
-- [ ] Quick action button to create PO for missing items
-- [ ] Color-coded status badges
+- [x] List pending orders
+- [x] Expandable order details showing BOM
+- [x] Show material availability per item (checkmark/warning)
+- [x] Indicate missing materials
+- [x] Quick action button to create PO for missing items
+- [x] Color-coded status badges
 
 ## Acceptance Criteria
 - Can see at a glance which orders can be released

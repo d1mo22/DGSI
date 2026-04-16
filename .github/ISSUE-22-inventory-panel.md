@@ -4,11 +4,11 @@
 Create the inventory display panel with visual indicators.
 
 ## Tasks
-- [ ] Display all inventory items
-- [ ] Show quantity with progress bar
-- [ ] Show reserved quantity
-- [ ] Visual indicator for low stock (warning color)
-- [ ] Show warehouse capacity usage
+- [x] Display all inventory items
+- [x] Show quantity with progress bar
+- [x] Show reserved quantity
+- [x] Visual indicator for low stock (warning color)
+- [x] Show warehouse capacity usage
 
 ## Acceptance Criteria
 - Clear visibility of available vs reserved

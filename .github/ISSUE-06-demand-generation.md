@@ -4,11 +4,11 @@
 Implement configurable demand generation for manufacturing orders.
 
 ## Tasks
-- [ ] Create demand parameters model (mean, variance per product)
-- [ ] Implement random demand generation algorithm
-- [ ] Support demand for both finished printers and raw materials
-- [ ] Add API endpoint to get/update demand parameters
-- [ ] Log demand generation events
+- [x] Create demand parameters model (mean, variance per product)
+- [x] Implement random demand generation algorithm
+- [x] Support demand for both finished printers and raw materials
+- [x] Add API endpoint to get/update demand parameters
+- [x] Log demand generation events
 
 ## Acceptance Criteria
 - Demand generated within configured mean/variance range

@@ -4,14 +4,14 @@
 Implement manufacturing order service for managing production orders.
 
 ## Tasks
-- [ ] Implement order creation
-- [ ] Calculate BOM requirements for an order
-- [ ] Check material availability against BOM
-- [ ] Release order to production (reserves materials)
-- [ ] Mark order as waiting_materials if insufficient
-- [ ] Process order completion within capacity limits
-- [ ] Cancel order (releases reservations)
-- [ ] Add API endpoints for all operations
+- [x] Implement order creation
+- [x] Calculate BOM requirements for an order
+- [x] Check material availability against BOM
+- [x] Release order to production (reserves materials)
+- [x] Mark order as waiting_materials if insufficient
+- [x] Process order completion within capacity limits
+- [x] Cancel order (releases reservations)
+- [x] Add API endpoints for all operations
 
 ## Acceptance Criteria
 - Orders created with correct BOM breakdown

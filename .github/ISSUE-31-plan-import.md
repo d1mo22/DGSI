@@ -4,11 +4,11 @@
 Implement production plan-only import functionality.
 
 ## Tasks
-- [ ] Create import function for production plan only
-- [ ] Validate BOM structure
-- [ ] Merge with existing data or replace
-- [ ] API endpoint /api/import/production-plan
-- [ ] Upload option in config section
+- [x] Create import function for production plan only
+- [x] Validate BOM structure
+- [x] Merge with existing data or replace
+- [x] API endpoint /api/import/production-plan
+- [x] Upload option in config section
 
 ## Acceptance Criteria
 - Can import custom production plans

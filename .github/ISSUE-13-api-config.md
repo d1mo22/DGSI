@@ -4,12 +4,12 @@
 Implement REST API endpoints for production plan configuration.
 
 ## Tasks
-- [ ] GET /api/config - Get full configuration
-- [ ] POST /api/config - Set/import configuration
-- [ ] GET /api/config/models - List all product models
-- [ ] GET /api/config/models/{model_id} - Get model with BOM
-- [ ] POST /api/config/suppliers - Add supplier
-- [ ] GET /api/config/suppliers - List suppliers
+- [x] GET /api/config - Get full configuration
+- [x] POST /api/config - Set/import configuration
+- [x] GET /api/config/models - List all product models
+- [x] GET /api/config/models/{model_id} - Get model with BOM
+- [x] POST /api/config/suppliers - Add supplier
+- [x] GET /api/config/suppliers - List suppliers
 
 ## Acceptance Criteria
 - All endpoints documented in Swagger

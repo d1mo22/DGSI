@@ -4,13 +4,13 @@
 Create the purchase order creation modal with bulk pricing display.
 
 ## Tasks
-- [ ] Supplier selection dropdown
-- [ ] Product selection dropdown (filtered by supplier)
-- [ ] Quantity input
-- [ ] Display price breaks dynamically
-- [ ] Show total cost calculation
-- [ ] Show estimated delivery date
-- [ ] Create/Cancel buttons
+- [x] Supplier selection dropdown
+- [x] Product selection dropdown (filtered by supplier)
+- [x] Quantity input
+- [x] Display price breaks dynamically
+- [x] Show total cost calculation
+- [x] Show estimated delivery date
+- [x] Create/Cancel buttons
 
 ## Acceptance Criteria
 - Bulk discounts calculated correctly

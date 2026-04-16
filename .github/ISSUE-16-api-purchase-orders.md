@@ -4,11 +4,11 @@
 Implement REST API endpoints for purchase orders.
 
 ## Tasks
-- [ ] GET /api/purchase-orders - List all POs
-- [ ] GET /api/purchase-orders/{po_id} - Get PO details
-- [ ] POST /api/purchase-orders - Create new PO
-- [ ] POST /api/purchase-orders/{po_id}/cancel - Cancel PO
-- [ ] Calculate total price with bulk discounts in response
+- [x] GET /api/purchase-orders - List all POs
+- [x] GET /api/purchase-orders/{po_id} - Get PO details
+- [x] POST /api/purchase-orders - Create new PO
+- [x] POST /api/purchase-orders/{po_id}/cancel - Cancel PO
+- [x] Calculate total price with bulk discounts in response
 
 ## Acceptance Criteria
 - Bulk pricing shown in PO creation

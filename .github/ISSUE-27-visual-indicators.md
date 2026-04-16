@@ -4,14 +4,14 @@
 Implement consistent visual indicators throughout the dashboard.
 
 ## Tasks
-- [ ] Green bar/checkmark for sufficient inventory
-- [ ] Red bar/warning for insufficient inventory
-- [ ] Yellow badge for pending orders
-- [ ] Blue badge for released orders
-- [ ] Orange badge for waiting_materials
-- [ ] Green badge for completed
-- [ ] Red badge for failed
-- [ ] Progress bars for warehouse capacity
+- [x] Green bar/checkmark for sufficient inventory
+- [x] Red bar/warning for insufficient inventory
+- [x] Yellow badge for pending orders
+- [x] Blue badge for released orders
+- [x] Orange badge for waiting_materials
+- [x] Green badge for completed
+- [x] Red badge for failed
+- [x] Progress bars for warehouse capacity
 
 ## Acceptance Criteria
 - Consistent color scheme across app

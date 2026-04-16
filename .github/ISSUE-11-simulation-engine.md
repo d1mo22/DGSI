@@ -4,13 +4,13 @@
 Implement the core simulation engine that processes a full day cycle.
 
 ## Tasks
-- [ ] Create advance_day function
-- [ ] Sequence: Generate demand -> Process POs -> Process orders -> Log events
-- [ ] Enforce daily capacity limits
-- [ ] Handle partial PO deliveries
-- [ ] Update order statuses based on completion
-- [ ] Take daily inventory snapshot
-- [ ] Add API endpoint to trigger advance
+- [x] Create advance_day function
+- [x] Sequence: Generate demand -> Process POs -> Process orders -> Log events
+- [x] Enforce daily capacity limits
+- [x] Handle partial PO deliveries
+- [x] Update order statuses based on completion
+- [x] Take daily inventory snapshot
+- [x] Add API endpoint to trigger advance
 
 ## Acceptance Criteria
 - Clicking "Advance Day" runs complete cycle

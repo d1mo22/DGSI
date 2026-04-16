@@ -4,12 +4,12 @@
 Create comprehensive README for the project.
 
 ## Tasks
-- [ ] Project overview
-- [ ] Installation instructions
-- [ ] Docker setup guide
-- [ ] API reference link
-- [ ] Environment variables explained
-- [ ] Contributing guidelines
+- [x] Project overview
+- [x] Installation instructions
+- [x] Docker setup guide
+- [x] API reference link
+- [x] Environment variables explained
+- [x] Contributing guidelines
 
 ## Acceptance Criteria
 - New user can set up and run in <10 minutes

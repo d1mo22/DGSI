@@ -4,10 +4,10 @@
 Implement REST API endpoints for event log access.
 
 ## Tasks
-- [ ] GET /api/events - List events (paginated, filterable)
-- [ ] GET /api/events/{event_id} - Get event details
-- [ ] GET /api/events/export - Export events as JSON
-- [ ] Support filtering by event_type, date range
+- [x] GET /api/events - List events (paginated, filterable)
+- [x] GET /api/events/{event_id} - Get event details
+- [x] GET /api/events/export - Export events as JSON
+- [x] Support filtering by event_type, date range
 
 ## Acceptance Criteria
 - Pagination working correctly

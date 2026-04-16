@@ -4,11 +4,11 @@
 Create the event log display ticker showing recent events.
 
 ## Tasks
-- [ ] Display last N events (configurable)
-- [ ] Show timestamp and event type
-- [ ] Color-code by event type
-- [ ] "View All" button to see full history
-- [ ] Auto-scroll to newest events
+- [x] Display last N events (configurable)
+- [x] Show timestamp and event type
+- [x] Color-code by event type
+- [x] "View All" button to see full history
+- [x] Auto-scroll to newest events
 
 ## Acceptance Criteria
 - Recent events visible at a glance

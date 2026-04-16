@@ -4,12 +4,12 @@
 Create the actions panel with buttons and controls.
 
 ## Tasks
-- [ ] New Purchase Order button
-- [ ] Release All button (for releasable orders)
-- [ ] Advance Day button (primary action)
-- [ ] Reset Simulation button
-- [ ] Display current simulated date
-- [ ] Confirmations for destructive actions
+- [x] New Purchase Order button
+- [x] Release All button (for releasable orders)
+- [x] Advance Day button (primary action)
+- [x] Reset Simulation button
+- [x] Display current simulated date
+- [x] Confirmations for destructive actions
 
 ## Acceptance Criteria
 - All actions accessible from one panel

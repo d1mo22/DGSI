@@ -4,12 +4,12 @@
 Implement full game state import from JSON with schema validation.
 
 ## Tasks
-- [ ] Create import function for full state
-- [ ] Validate JSON schema before importing
-- [ ] Handle version compatibility
-- [ ] Transaction-based import (rollback on error)
-- [ ] API endpoint /api/import/full-state
-- [ ] Upload button in dashboard
+- [x] Create import function for full state
+- [x] Validate JSON schema before importing
+- [x] Handle version compatibility
+- [x] Transaction-based import (rollback on error)
+- [x] API endpoint /api/import/full-state
+- [x] Upload button in dashboard
 
 ## Acceptance Criteria
 - Invalid JSON rejected with clear error
