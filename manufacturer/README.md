@@ -18,7 +18,7 @@ DGSI (Data-Dense Global Simulation Interface) is a simulation system designed to
 
 ## Tech Stack
 
-*   **Backend**: Python 3.11, FastAPI, SQLAlchemy (SQLite), Pydantic
+*   **Backend**: Python 3.11-3.13, FastAPI, SQLAlchemy (SQLite), Pydantic
 *   **Frontend**: Streamlit 1.40 (Custom Dark Industrial Theme)
 *   **Security**: JWT Authentication with bcrypt password hashing
 *   **Infrastructure**: Docker & Docker Compose
@@ -27,8 +27,10 @@ DGSI (Data-Dense Global Simulation Interface) is a simulation system designed to
 
 ### Prerequisites
 
-*   Python 3.11+
+*   Python 3.11, 3.12, or 3.13
 *   Docker & Docker Compose (optional, for containerized deployment)
+
+> Python 3.14 is not supported by the currently pinned dependency set. In particular, `pydantic-core==2.23.4` builds through a PyO3 version that supports up to Python 3.13.
 
 ### Local Installation
 
@@ -40,8 +42,9 @@ DGSI (Data-Dense Global Simulation Interface) is a simulation system designed to
 
 2.  **Set up a virtual environment**:
     ```bash
-    python -m venv venv
+    python3.11 -m venv venv  # or python3.12 / python3.13
     source venv/bin/activate  # On Windows: venv\Scripts\activate
+    python -m pip install --upgrade pip
     ```
 
 3.  **Install dependencies**:
@@ -86,6 +89,8 @@ Run the test suite using pytest:
 ```bash
 pytest
 ```
+
+If dependency installation fails while building `pydantic-core` and the log mentions `Python interpreter version (3.14)`, recreate the virtual environment with Python 3.11, 3.12, or 3.13 and reinstall `requirements.txt`.
 
 ## Directory Structure
 

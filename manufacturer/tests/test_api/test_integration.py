@@ -26,6 +26,7 @@ def client(db_session: Session):
 @pytest.fixture
 def db_session():
     """Create fresh database for each test."""
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     session = Session(engine)
     initialize_seed_data(session)
